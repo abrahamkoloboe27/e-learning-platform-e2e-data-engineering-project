@@ -1,0 +1,22 @@
+[project]
+name = "elearning-synthetic-data-generator"
+version = "0.1.0"
+description = "Synthetic data generator for an e-learning platform with MongoDB Atlas"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "faker>=37.4.0",
+  "pymongo>=4.8.0",
+  "python-dotenv>=1.0.1",
+  "tqdm>=4.66.0",
+]
+
+[project.scripts]
+generate-elearning-data = "main:main"
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
