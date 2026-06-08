@@ -101,7 +101,7 @@ class MongoService(AbstractContextManager["MongoService"]):
 
         elapsed = time.time() - start_time
         speed = total / elapsed if elapsed > 0 else 0
-        logger.info(f"Inserted {total} documents into '{collection_name}' ({speed:.1f} docs/s, {elapsed:.2f}s)")
+        logger.info("Batch insertion completed successfully.")
         return total
 
     def insert_many_in_batches(self, collection_name: str, documents: list[dict[str, Any]]) -> int:

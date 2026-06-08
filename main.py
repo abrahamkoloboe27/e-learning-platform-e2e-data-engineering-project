@@ -100,14 +100,17 @@ def main() -> None:
 
     show_progress = not args.no_progress
 
+    # Generate modules and lessons
+    modules_gen, lessons_gen = generator.generate_modules_and_lessons_batch(courses)
+
     # MongoDB insertion with batching
     collection_order = [
         ("categories", categories),
         ("users", users),
         ("instructors", instructors),
         ("courses", courses),
-        ("course_modules", generator.generate_modules_and_lessons_batch(courses)[0]),
-        ("lessons", generator.generate_modules_and_lessons_batch(courses)[1]),
+        ("course_modules", modules_gen),
+        ("lessons", lessons_gen),
         ("enrollments", enrollments),
         ("progress_events", generator.generate_progress_events_batch(enrollments, courses)),
         ("quizzes", quizzes),
@@ -140,10 +143,10 @@ def main() -> None:
                     iterable = data_iterable
 
                 inserted = mongo.insert_from_iterable(collection_name, iterable, batch_size=batch_size, show_progress=show_progress)
-                logger.info(f"Completed: {collection_name} ({inserted} documents)")
+                logger.info("Collection insertion completed.")
 
         elapsed = time.time() - start_time
-        logger.info(f"Data insertion completed in {elapsed:.2f}s")
+        logger.info("Data insertion completed successfully.")
 
     except Exception as exc:
         logger.exception("Data generation/insertion failed: %s", exc)
