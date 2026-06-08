@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 class Settings:
     mongodb_uri: str
     mongodb_db_name: str
-    batch_size: int = 1000
+    batch_size: int = 5000
     default_seed: int | None = None
 
     @classmethod
