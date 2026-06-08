@@ -45,8 +45,7 @@ def main() -> None:
     dataset = generate_dataset(seed=seed, config=generation_config)
 
     logger.info("Synthetic data generated with seed=%s", seed)
-    for name, records in dataset.items():
-        logger.info("%s: %s", name, len(records))
+    logger.info("Synthetic dataset generated successfully.")
 
     if args.dry_run:
         logger.info("Dry run enabled; no MongoDB write executed.")

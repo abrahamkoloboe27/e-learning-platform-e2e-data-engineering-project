@@ -41,7 +41,7 @@ class MongoService(AbstractContextManager["MongoService"]):
             raise RuntimeError("Database is not initialized")
         for name in collection_names:
             self.db[name].drop()
-            logger.info("Dropped collection '%s'", name)
+            logger.info("Dropped target collection")
 
     def create_indexes(self) -> None:
         if not self.db:
@@ -56,7 +56,7 @@ class MongoService(AbstractContextManager["MongoService"]):
                     field, direction = index_def  # type: ignore[misc]
                     unique = field in {"unique_id", "email", "slug"}
                     collection.create_index([(field, direction)], unique=unique, background=True)
-            logger.info("Indexes created for '%s'", collection_name)
+            logger.info("Indexes created for target collection")
 
     def insert_many_in_batches(self, collection_name: str, documents: list[dict[str, Any]]) -> int:
         if not self.db:
@@ -70,5 +70,5 @@ class MongoService(AbstractContextManager["MongoService"]):
             chunk = documents[start : start + self._batch_size]
             collection.insert_many(chunk, ordered=False)
             total += len(chunk)
-        logger.info("Inserted %s documents into '%s'", total, collection_name)
+        logger.info("Batch insert completed")
         return total
